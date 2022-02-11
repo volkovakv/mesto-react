@@ -28,8 +28,8 @@ function App() {
   }
 
   {/* открыть картинку */}
-  function handleCardClick(props) {
-    setSelectedCard(props);
+  function handleCardClick(card) {
+    setSelectedCard(card);
   }
   
   {/* закрытие всех попапов */}
@@ -63,6 +63,7 @@ function App() {
         onClose={closeAllPopups}
         name={'bio'}
         title={'Редактировать профиль'}
+        text={'Сохранить'}
         children={(
           <>
             <label className="popup__form-field">
@@ -83,6 +84,7 @@ function App() {
         onClose={closeAllPopups}
         name={'photo'}
         title={'Новое место'}
+        text={'Создать'}
         children={(
           <>
             <label className="popup__form-field">
@@ -103,6 +105,7 @@ function App() {
         onClose={closeAllPopups}
         name={'update'}
         title={'Обновить аватар'}
+        text={'Сохранить'}
         children={(
           <>
             <label className="popup__form-field">

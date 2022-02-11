@@ -2,7 +2,7 @@ import React from 'react';
 import api from '../utils/Api';
 import Card from './Card';
 
-export function Main(props) {
+export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
   const [userAvatar, setUserAvatar] = React.useState('');
@@ -26,15 +26,15 @@ export function Main(props) {
   return (
     <main className="content">
       <section className="profile">
-        <button type="button" className="profile__avatar-edit" aria-label="avatar-edit" onClick={props.onEditAvatar}>
-          <img src={`${userAvatar}`} className="profile__avatar" alt="К сожалению, изображение не доступно" onClick={props.onEditAvatar} />
+        <button type="button" className="profile__avatar-edit" aria-label="avatar-edit" onClick={onEditAvatar}>
+          <img src={`${userAvatar}`} className="profile__avatar" alt="К сожалению, изображение не доступно" onClick={onEditAvatar} />
         </button>  
         <div className="profile__bio">             
           <h1 className="profile__info-name">{userName}</h1>
-          <button type="button" className="profile__info-edit-button" onClick={props.onEditProfile}></button>
+          <button type="button" className="profile__info-edit-button" onClick={onEditProfile}></button>
           <h2 className="profile__info-job">{userDescription}</h2>
         </div>
-        <button type="button" className="profile__add-button" aria-label="add-photo" onClick={props.onAddPlace}></button>
+        <button type="button" className="profile__add-button" aria-label="add-photo" onClick={onAddPlace}></button>
       </section> 
         
       <section className="elements">
@@ -43,10 +43,7 @@ export function Main(props) {
               <Card
                 key={card._id}
                 card={card}
-                link={card.link}
-                name={card.name}
-                likes={card.likes.length}
-                onCardClick={props.onCardClick}
+                onCardClick={onCardClick}
               />
             ))}          
         </ul>
