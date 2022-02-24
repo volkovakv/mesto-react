@@ -1,5 +1,4 @@
 import React from 'react';
-import '../index';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -19,20 +18,14 @@ function App() {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then(res => {
-        setCurrentUser(res)
-      })
-      .catch(err => console.log(err));
-  }, []) 
-
-  React.useEffect(() => {
-    api.getInitialCards()
-      .then(res => {
-        setCards(res);
-      })
-      .catch((err) => console.log(err));      
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([user, cards]) => {
+      setCurrentUser(user);
+      setCards(cards);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   function handleCardLike(card) {
@@ -44,7 +37,7 @@ function App() {
             setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
           })
           .catch((err) => {
-            console.error(err);
+            console.log(err);
           });
       } else {
         api
@@ -53,7 +46,7 @@ function App() {
             setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
           })
           .catch((err) => {
-            console.error(err);
+            console.log(err);
           });
       }
   }
@@ -65,7 +58,9 @@ function App() {
       .then(() => {
         setCards(cards.filter(item => item._id !== card._id));
       })
-      .catch(err => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   {/* открыть попап редактирования bio */}
