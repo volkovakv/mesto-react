@@ -1,38 +1,20 @@
 import React from 'react';
-import api from '../utils/Api';
 import Card from './Card';
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
-  const [userName, setUserName] = React.useState('');
-  const [userDescription, setUserDescription] = React.useState('');
-  const [userAvatar, setUserAvatar] = React.useState('');
-  const [cards, setCards] = React.useState([]);
-
-  React.useEffect(() => {
-    api.getUserInfo()
-      .then(res => {
-        setUserName(res.name);
-        setUserDescription(res.about);
-        setUserAvatar(res.avatar);
-      })
-      .catch((err) => console.log(err));
-    api.getInitialCards()
-      .then(res => {
-        setCards(res);
-      })
-      .catch((err) => console.log(err));      
-  }, []);
+export function Main({onUpdateAvatar, onEditProfile, onAddPlace, cards, onCardClick, onCardLike, onCardDelete }) {
+  const currentUser = React.useContext(CurrentUserContext);
   
   return (
     <main className="content">
       <section className="profile">
-        <button type="button" className="profile__avatar-edit" aria-label="avatar-edit" onClick={onEditAvatar}>
-          <img src={`${userAvatar}`} className="profile__avatar" alt="К сожалению, изображение не доступно" onClick={onEditAvatar} />
+        <button type="button" className="profile__avatar-edit" aria-label="avatar-edit" onClick={onUpdateAvatar}>
+          <img src={`${currentUser.avatar}`} className="profile__avatar" alt="К сожалению, изображение не доступно" onClick={onUpdateAvatar} />
         </button>  
         <div className="profile__bio">             
-          <h1 className="profile__info-name">{userName}</h1>
+          <h1 className="profile__info-name"> {currentUser.name}</h1>
           <button type="button" className="profile__info-edit-button" onClick={onEditProfile}></button>
-          <h2 className="profile__info-job">{userDescription}</h2>
+          <h2 className="profile__info-job">{currentUser.about}</h2>
         </div>
         <button type="button" className="profile__add-button" aria-label="add-photo" onClick={onAddPlace}></button>
       </section> 
@@ -44,6 +26,8 @@ export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
                 key={card._id}
                 card={card}
                 onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
               />
             ))}          
         </ul>

@@ -42,7 +42,10 @@ _checkResult(res) {
     return fetch(requestUrl, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify(inputValues)
+      body: JSON.stringify({
+        name: inputValues.name,
+        about: inputValues.about
+      })
     })
     .then((res) => this._checkResult(res));
   }
@@ -53,7 +56,7 @@ _checkResult(res) {
     return fetch(requestUrl, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify(inputValues)
+      body: JSON.stringify(inputValues),
     })
     .then((res) => this._checkResult(res));
   }
@@ -95,7 +98,9 @@ _checkResult(res) {
     return fetch(requestUrl, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify(inputValues),
+      body: JSON.stringify({
+        avatar: inputValues.avatar
+      })
     })
     .then((res) => this._checkResult(res));
   }
